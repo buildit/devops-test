@@ -21,8 +21,7 @@ We are testing your ability to implement modern automated infrastructure, as wel
  ## Submit your solution	
 Create a public Github repository and push your solution in it. Commit often - we would rather see a history of trial and error than a single monolithic push. When you're finished, send us the URL to the repository.	
 
- ## Running this web application	## Running this web application
-
+ ## Running this web application	
  This is a NodeJS application:	This is a NodeJS application:
 
 - `npm test` runs the application tests	- `npm test` runs the application tests
