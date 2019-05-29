@@ -28,7 +28,12 @@ Create a droplet capable of running the Node web app. Use the steps below:
 1. Give you droplet and more friendly, identifiable name e.g. ws1-devops
 1. You can skip over most of the other options (for the purpose of creating this demo/test)
 
-## (3) Install Node on your Droplet
+## (3) Install Node and NPM on your Droplet
+To install Node and NPM, SSH into to your newly created droplet and run the following commands:
+
+```
+sudo apt-install 
+```
 
 
 
