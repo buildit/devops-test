@@ -1,6 +1,6 @@
 # Devops-test
 
-This page outlines the steps taken to implement a CD pipeline for the BuildIT Devops test - see [BuildIt DevOps Test](README_BUILDIT.md).
+This page outlines the steps taken to implement a CI pipeline for the BuildIT Devops test - see [BuildIt DevOps Test](README_BUILDIT.md).
 Any changes made to the _feature_ branch of this repository will trigger the pipeline resulting in deployment of the sample
 web app to a HA environment on Digital Ocean.
 
@@ -62,6 +62,7 @@ This will save the generated private/public pair to `/home/deploy/.ssh/id_rsa`.
 1. Start `ssh-agent` and add the new 'deploy' key. This will allow for unprompted SSH authentication when required
 ```
 $ eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
 
 ```
 1. Copy the contents of `id_rsa.pub` to your Github account - Settings > SSH and GPG keys
@@ -77,12 +78,40 @@ sudo bash node_10_setup.sh
 sudo apt install nodejs
 ```
 
-Verify succesful installtion using the following commands
+Verify successful installation using the following commands:
 ```
 node -v
 npm -v
 ```
 
+## (6) Install Node app on Droplet
+Clone the repo to a folder on the droplet.
+1. Create folder where repo/app will reside
+```
+cd /var
+mkdir www
+sudo chown deploy:deploy -R www
+cd www
+```
+1. Clone repo `git clone git@github.com:dazoido/devops-test.git`
+1. Install app dependencies and start app
+```
+cd devops-test
+npm install
+npm start
+```
+
+## (7) Setup Codeship to manage CI
+1. Create project and connect to repository
+1. Set deployment script - Project > Project Settings > Deploy
+```
+# deploy to ws1-devops
+ssh deploy@68.183.46.132 'cd /var/www/devops-test; git checkout feature; git pull; npm install;'
+```
+1. Set build triggers - Project > Project Settings > Build Triggers
+    * Select Behaviour - Run builds for these branches only [feature]
+    * Select Build Trigger - Build on commit, merge, and tags
+1. Copy SSH key in - Project > Project Settings > General to `/home/deploy/.ssh/authorized_keys`
 
 
 
