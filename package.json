@@ -4,12 +4,16 @@
   "description": "Example repo for DevOps test",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "node index.test.js"
+    "start": "pm2 start index.js -name devops-test",
+    "test": "node index.test.js",
+    "restart": "pm2 restart"
   },
   "author": "Sam Clement",
   "license": "ISC",
   "devDependencies": {
     "tape": "^4.6.3"
+  },
+  "dependencies": {
+    "pm2": "^3.5.1"
   }
 }
