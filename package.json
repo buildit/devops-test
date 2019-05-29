@@ -4,7 +4,7 @@
   "description": "Example repo for DevOps test",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js -name devops-test",
+    "start": "pm2 start index.js --name devops-test",
     "test": "node index.test.js",
     "restart": "pm2 restart"
   },
