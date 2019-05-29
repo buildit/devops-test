@@ -1,4 +1,4 @@
-# Devops-test
+# Devops-test (FEATURE branch)
 
 This page outlines the steps taken to implement a CI pipeline for the BuildIT Devops test - see [BuildIt DevOps Test](README_BUILDIT.md).
 Any changes made to the _feature_ branch of this repository will trigger the pipeline resulting in deployment of the sample
@@ -106,7 +106,7 @@ npm start
 1. Set deployment script - Project > Project Settings > Deploy
 ```
 # deploy to ws1-devops
-ssh deploy@68.183.46.132 'cd /var/www/devops-test; git checkout feature; git pull; npm install;'
+ssh deploy@DROPLET_IP 'cd /var/www/devops-test; git checkout feature; git pull; npm install;'
 ```
 1. Set build triggers - Project > Project Settings > Build Triggers
     * Select Behaviour - Run builds for these branches only [feature]
