@@ -28,6 +28,7 @@ Create a droplet capable of running the Node web app. Use the steps below:
 1. Give you droplet and more friendly, identifiable name e.g. ws1-devops
 1. You can skip over most of the other options (for the purpose of creating this demo/test)
 
+
 ## (3) Create 'deploy' user
 Create a deploy user for managing deployments to droplet
 
@@ -35,7 +36,7 @@ Create a deploy user for managing deployments to droplet
 1. Add 'deploy' user - `useradd -s /bin/bash -m -d /home/deploy deploy`
 1. Set password for 'deploy' user - `passwd deploy`
 1. Give 'deploy user' sudo/root level access - `usermod -aG sudo deploy`
-1. Create authorized_key file for ssh acces to 'deploy' user -
+1. Create authorized_key file for ssh access to 'deploy' user -
 ```
 cd /home/deploy
 mkdir .ssh
@@ -49,7 +50,24 @@ chmod 600 authorized_keys
 Note: alternatively you can use `ssh-copy-id` command from your local machine to setup the necessary ssh directory, files and add your key.
 1. Add your public SSH key to `/home/deploy/.ssh/authorized_keys`
 
-## (3) Install Node and NPM on your Droplet
+
+## (4) Create SSH keys for deploy and connect to GitHub
+Generate SSH keys for 'deploy' user and use these to connect the droplet to GitHub
+
+1. SSH into your droplet as the 'deploy' user - `ssh deploy@DROPLET_IP`
+```
+ssh-keygen -t rsa -C "deploy"
+```
+This will save the generated private/public pair to `/home/deploy/.ssh/id_rsa`.
+1. Start `ssh-agent` and add the new 'deploy' key. This will allow for unprompted SSH authentication when required
+```
+$ eval $(ssh-agent -s)
+
+```
+1. Copy the contents of `id_rsa.pub` to your Github account - Settings > SSH and GPG keys
+
+
+## (5) Install Node and NPM on your Droplet
 To install Node and NPM, SSH into to your newly created droplet and run the following commands:
 
 ```
