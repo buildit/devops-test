@@ -110,7 +110,7 @@ npm start
 1. Set deployment script - Project > Project Settings > Deploy
 ```
 # deploy to ws1-devops
-ssh deploy@DROPLET_IP 'cd /var/www/devops-test && git checkout feature && git pull && npm install && pm2 restart'
+ssh deploy@DROPLET_IP 'cd /var/www/devops-test && git checkout feature && git pull && npm install && pm2 restart all'
 ```
 1. Set build triggers - Project > Project Settings > Build Triggers
     * Select Behaviour - Run builds for these branches only [feature]
