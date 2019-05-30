@@ -58,8 +58,9 @@ Generate SSH keys for 'deploy' user and use these to connect the droplet to GitH
 ```
 ssh-keygen -t rsa -C "deploy"
 ```
+When prompted save the key with an empty passphrase.
 This will save the generated private/public pair to `/home/deploy/.ssh/id_rsa`.
-1. Add the following ssh-agent startup script to `/home/deploy/.bashrc`. Password will be required on the first login but will enable unprompted SSH authentication when required (essential for deploy CI process)
+1. Add the following ssh-agent startup script to `/home/deploy/.bashrc`. You will need to reboot the server for the `ssh-agent` to be started and the deploy key automatically added.
 ```
 if [ ! -S ~/.ssh/ssh_auth_sock ]; then
   eval `ssh-agent`
@@ -68,7 +69,7 @@ fi
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 ssh-add -l > /dev/null || ssh-add
 ```
-1. Copy the contents of `id_rsa.pub` to your Github account - Settings > SSH and GPG keys
+1. Copy the contents of `id_rsa.pub` to your Github repo - Settings > Deploy Keys. (Do not allow write permissions).
 
 
 ## (5) Install Node and NPM on your Droplet
@@ -109,7 +110,7 @@ npm start
 1. Set deployment script - Project > Project Settings > Deploy
 ```
 # deploy to ws1-devops
-ssh deploy@DROPLET_IP 'cd /var/www/devops-test; git checkout feature; git pull; npm install; pm2 restart;'
+ssh deploy@DROPLET_IP 'cd /var/www/devops-test && git checkout feature && git pull && npm install && pm2 restart'
 ```
 1. Set build triggers - Project > Project Settings > Build Triggers
     * Select Behaviour - Run builds for these branches only [feature]
