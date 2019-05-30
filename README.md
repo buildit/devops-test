@@ -37,17 +37,17 @@ Create a deploy user for managing deployments to droplet
 1. Set password for 'deploy' user - `passwd deploy`
 1. Give 'deploy user' sudo/root level access - `usermod -aG sudo deploy`
 1. Create authorized_key file for ssh access to 'deploy' user -
-```
-cd /home/deploy
-mkdir .ssh
-chown deploy:deploy .ssh
-chmod 700 .ssh
-cd .ssh
-touch authorized_keys
-chown deploy:deploy authorized_keys
-chmod 600 authorized_keys
-```
-Note: alternatively you can use `ssh-copy-id` command from your local machine to setup the necessary ssh directory, files and add your key.
+    ```
+    cd /home/deploy
+    mkdir .ssh
+    chown deploy:deploy .ssh
+    chmod 700 .ssh
+    cd .ssh
+    touch authorized_keys
+    chown deploy:deploy authorized_keys
+    chmod 600 authorized_keys
+    ```
+    Note: alternatively you can use `ssh-copy-id` command from your local machine to setup the necessary ssh directory, files and add your     key.
 1. Add your public SSH key to `/home/deploy/.ssh/authorized_keys`
 
 
@@ -55,20 +55,20 @@ Note: alternatively you can use `ssh-copy-id` command from your local machine to
 Generate SSH keys for 'deploy' user and use these to connect the droplet to GitHub
 
 1. SSH into your droplet as the 'deploy' user - `ssh deploy@DROPLET_IP`
-```
-ssh-keygen -t rsa -C "deploy"
-```
-When prompted save the key with an empty passphrase.
-This will save the generated private/public pair to `/home/deploy/.ssh/id_rsa`.
+    ```
+    ssh-keygen -t rsa -C "deploy"
+    ```
+    When prompted save the key with an empty passphrase.
+    This will save the generated private/public pair to `/home/deploy/.ssh/id_rsa`.
 1. Add the following ssh-agent startup script to `/home/deploy/.bashrc`. You will need to reboot the server for the `ssh-agent` to be started and the deploy key automatically added.
-```
-if [ ! -S ~/.ssh/ssh_auth_sock ]; then
-  eval `ssh-agent`
-  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
-fi
-export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-ssh-add -l > /dev/null || ssh-add
-```
+    ```
+    if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+      eval `ssh-agent`
+      ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+    fi
+    export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+    ssh-add -l > /dev/null || ssh-add
+    ```
 1. Copy the contents of `id_rsa.pub` to your Github repo - Settings > Deploy Keys. (Do not allow write permissions).
 
 
