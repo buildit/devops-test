@@ -1,4 +1,4 @@
-# Devops-test (FEATURE branch)
+# Devops-test
 
 This page outlines the steps taken to implement a CI pipeline for the BuildIT Devops test - see [BuildIt DevOps Test](README_BUILDIT.md).
 Any changes made to the _feature_ branch of this repository will trigger the pipeline resulting in deployment of the sample
@@ -130,4 +130,9 @@ Clone the repo to a folder on the droplet.
 ## (9) Setup Loadbalancer on DigitalOcean
 1. Spin up a loadbalancer on Digital Ocean and add the droplets to its balancing group
 1. Configure the settings as follows <img width="1218" alt="DigitalOcean_LB_settings" src="https://user-images.githubusercontent.com/22031811/58669926-44a9e100-8335-11e9-822a-29163d084e02.png">
+
+## (10) Demo CI pipeline
+ * Droplet 1 - [http://ws1-devops.joelcalliste.me:3000](http://ws1-devops.joelcalliste.me:3000)
+ * Droplet 2 - [http://ws2-devops.joelcalliste.me:3000](http://ws2-devops.joelcalliste.me:3000)
+ * Loadbalancer - [http://ws-devops.joelcalliste.me](http://ws-devops.joelcalliste.me)
 
