@@ -127,5 +127,7 @@ Clone the repo to a folder on the droplet.
     # deploy to ws2-devops
     ssh deploy@DROPLET_IP 'cd /var/www/devops-test && git checkout feature && git pull && npm install && pm2 restart all'
     ```
-    
+## (9) Setup Loadbalancer on DigitalOcean
+1. Spin up a loadbalancer on Digital Ocean and add the droplets to its balancing group
+1. Configure the settings as follows <img width="1218" alt="DigitalOcean_LB_settings" src="https://user-images.githubusercontent.com/22031811/58669926-44a9e100-8335-11e9-822a-29163d084e02.png">
 
