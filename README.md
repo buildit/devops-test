@@ -80,7 +80,7 @@ Generate SSH keys for 'deploy' user and use these to connect the droplet to GitH
     sudo bash node_10_setup.sh
     sudo apt install nodejs
     ```
-1.Verify successful installation using the following commands:
+1. Verify successful installation using the following commands:
     ```
     node -v
     npm -v
