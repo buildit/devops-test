@@ -1,4 +1,4 @@
-[![Github CI](https://github.com/elliottmurray/devops-test/workflows/CI/badge.svg)](https://github.com/elliottmurray/devops-test/actions)
+![CI](https://github.com/elliottmurray/devops-test/workflows/CI/badge.svg)
 
 
 # Setup
