@@ -6,4 +6,11 @@ function handleRequest(req, res) {
   res.end()
 }
 
-http.createServer(handleRequest).listen(3000)
+process.on('SIGINT', function() {
+    process.exit();
+})
+
+
+console.log('starting server on 3000');
+
+http.createServer(handleRequest).listen(3000, '0.0.0.0')
