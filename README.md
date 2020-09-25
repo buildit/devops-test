@@ -1,3 +1,6 @@
+[![Github CI](https://github.com/{elliottmurray}/{devops-test}/workflows/{Node.js CI}/badge.svg)](https://github.com/{elliottmurray}/{devops-test}/actions)
+
+
 # Setup
 I have assumed docker is installed. I ran it with node 12 locally. I managed this with dotenv/nvm but would probably use .node_version ongoing.
 
