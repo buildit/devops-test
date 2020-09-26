@@ -10,7 +10,7 @@ env:
   PROJECT_ID: em-buildit
   GKE_CLUSTER: buildit-cluster
   GKE_ZONE: europe-north1-a
-  DEPLOYMENT_NAME: buildit-cluster
+  DEPLOYMENT_NAME: buildit-deployment
   IMAGE: example-app
 
 jobs:
