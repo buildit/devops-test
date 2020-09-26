@@ -1,5 +1,5 @@
 ![CI](https://github.com/elliottmurray/devops-test/workflows/CI/badge.svg)
-
+![Deploy to GKE](https://github.com/elliottmurray/devops-test/workflows/Build%20and%20Deploy%20to%20GKE/badge.svg?event=deployment)
 
 # Setup
 I have assumed docker is installed. I ran it with node 12 locally. I managed this with dotenv/nvm but would probably use .node_version ongoing. I have used github actions and you will need to set up some secrets/config so will have to re-fork this repo to get a deployment working. The secrets you will need to setup:
