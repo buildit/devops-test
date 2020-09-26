@@ -14,3 +14,4 @@ spec:
         image: gcr.io/PROJECT_ID/IMAGE:TAG
         ports:
         - containerPort: 3000
+          protocol: TCP
