@@ -4,13 +4,16 @@ metadata:
   name: example-app-deployment
 spec:
   replicas: 2
+  selector:
+    matchLabels:
+      app: example-app
   template:
     metadata:
       labels: # labels to select/identify the deployment
         app: example-app
     spec:
       containers:
-      - name: app
+      - name: example-app
         image: gcr.io/PROJECT_ID/IMAGE:TAG
         ports:
         - containerPort: 3000

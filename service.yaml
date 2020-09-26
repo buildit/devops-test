@@ -3,10 +3,9 @@ apiVersion: v1
 metadata:
   name: the-service
 spec:
+  type: NodePort
   selector:
-    name: the-service
-    type: NodePort
-    deployment: example-app-deployment
+    app: example-app
   type: LoadBalancer
   ports:
   - protocol: TCP
