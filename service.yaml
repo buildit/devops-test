@@ -5,10 +5,10 @@ metadata:
 spec:
   selector:
     name: the-service
-    type: frontend
+    type: NodePort
     deployment: example-app-deployment
   type: LoadBalancer
   ports:
   - protocol: TCP
-    port: 80
+    port: 4000
     targetPort: 3000
