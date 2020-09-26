@@ -6,7 +6,7 @@ spec:
   selector:
     name: the-service
     type: frontend
-    deployment: example-app
+    deployment: example-app-deployment
   type: LoadBalancer
   ports:
   - protocol: TCP
