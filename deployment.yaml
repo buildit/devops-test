@@ -10,7 +10,7 @@ spec:
         app: example-app
     spec:
       containers:
-      - name: example-app
+      - name: app
         image: gcr.io/PROJECT_ID/IMAGE:TAG
         ports:
         - containerPort: 3000
