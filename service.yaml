@@ -4,6 +4,8 @@ metadata:
   name: the-service
 spec:
   selector:
+    name: the-service
+    type: frontend
     deployment: example-app
   type: LoadBalancer
   ports:
