@@ -36,18 +36,26 @@ jobs:
             sudo apt install -y awscli
             mkdir test-app
             cp index.js index.test.js package.json test-app/
+            version=$(cat package.json | jq -r .version)
+            echo $version > version.txt
             tar -czvf test-app.tar.gz test-app
-            aws s3 cp test-app.tar.gz s3://buildittest/test-app.tar.gz --acl public-read --region eu-west-1
-
+            aws s3 cp test-app.tar.gz s3://buildittest/test-app-$version.tar.gz --acl public-read --region eu-west-1
+      - persist_to_workspace:
+          root: .
+          paths:
+            - version.txt
   plan:
     working_directory: /tmp/project
     docker:
       - image: hashicorp/terraform:light
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: terraform init & plan
           command: |
+            version=$(cat version.txt)
             cd terraform
             terraform init -input=false
             terraform plan -var="app_version=$version" -out tfapply
