@@ -26,3 +26,7 @@ resource "aws_elb" "webserver" {
   connection_draining_timeout = 400
 
 }
+
+output "load_balancer_address" {
+  value = aws_elb.webserver.dns_name
+}
