@@ -25,9 +25,10 @@ resource "aws_instance" "buildit" {
   subnet_id              = aws_subnet.public[count.index].id
   key_name               = aws_key_pair.public.key_name
   vpc_security_group_ids = [aws_security_group.allow_3000.id]
-    user_data = templatefile("setup.sh", {
+  user_data = "${templatefile("setup.sh", {
     version = var.app_version
     })
+  }"
   tags = {
     Name = "WebServer-${count.index}"
   }
