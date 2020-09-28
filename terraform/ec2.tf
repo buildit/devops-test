@@ -34,3 +34,10 @@ resource "aws_instance" "buildit" {
   }
   count = length(var.availability_zones)
 }
+
+# resource "aws_eip" "ip" {
+#   instance   = aws_instance.buildit[count.index].id
+#   vpc        = true
+#   depends_on = [aws_internet_gateway.gw]
+#   count = 2
+# }
