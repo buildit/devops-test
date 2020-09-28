@@ -26,7 +26,7 @@ resource "aws_instance" "buildit" {
   key_name               = aws_key_pair.public.key_name
   vpc_security_group_ids = [aws_security_group.allow_3000.id]
   user_data = "${templatefile("setup.sh", {
-    version = var.app_version
+    version = "${var.app_version}"
     })
   }"
   tags = {
