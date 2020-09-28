@@ -1,0 +1,72 @@
+version: 2.1
+workflows:
+  build_and_deploy:
+    jobs:
+      - build:
+          context:
+            - AWS
+      - plan:
+          context:
+            - AWS
+          requires:
+            - build
+      - approve:
+          type: approval
+          requires:
+            - plan
+      - apply:
+          context:
+            - AWS
+          requires:
+            - approve
+jobs:
+  build:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run:
+          name: Test
+          command: |
+            npm test
+      - run:
+          name: Package_To_S3
+          command: |
+            sudo apt update
+            sudo apt install -y awscli
+            mkdir test-app
+            cp index.js index.test.js package.json test-app/
+            tar -czvf test-app.tar.gz test-app
+            aws s3 cp test-app.tar.gz s3://buildittest/test-app.tar.gz --acl public-read --region eu-west-1
+
+  plan:
+    working_directory: /tmp/project
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: terraform init & plan
+          command: |
+            cd terraform
+            terraform init -input=false
+            terraform plan -var="app_version=$version" -out tfapply
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  apply:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform
+          command: |
+            cd terraform
+            terraform apply -auto-approve tfapply
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
