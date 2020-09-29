@@ -25,19 +25,18 @@ resource "aws_instance" "buildit" {
   subnet_id              = aws_subnet.public[count.index].id
   key_name               = aws_key_pair.public.key_name
   vpc_security_group_ids = [aws_security_group.allow_3000.id]
-  user_data = "${templatefile("setup.sh", {
-    version = "${var.app_version}"
+  user_data = templatefile("setup.sh", {
+    version = var.app_version
     })
-  }"
   tags = {
     Name = "WebServer-${count.index}"
   }
   count = length(var.availability_zones)
 }
 
-# resource "aws_eip" "ip" {
-#   instance   = aws_instance.buildit[count.index].id
-#   vpc        = true
-#   depends_on = [aws_internet_gateway.gw]
-#   count = 2
-# }
+resource "aws_eip" "ip" {
+  instance   = aws_instance.buildit[count.index].id
+  vpc        = true
+  depends_on = [aws_internet_gateway.gw]
+  count = 2
+}
