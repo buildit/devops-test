@@ -5,6 +5,10 @@ module "instance_template" {
   project_id         = var.gcp_project
   network            = var.vpc
 
+  machine_type      = var.machine_type
+  preemptible       = var.preemptible
+  disk_size_gb      = var.disk_size_gb
+
   service_account = {
     email  = ""
     scopes = []

@@ -3,7 +3,7 @@ variable "gcp_project" {
 }
 
 variable "gcp_region" {
-  default = "europe-west1"
+  default = "us-central1"
 }
 
 variable "vpc" {
@@ -12,6 +12,19 @@ variable "vpc" {
 
 variable "instances" {
   default = 2
+}
+
+variable "machine_type" {
+  default = "f1-micro"
+}
+
+variable "preemptible" {
+  type = bool
+  default = true
+}
+
+variable "disk_size_gb" {
+  default = 10
 }
 
 variable "hostname_prefix" {
