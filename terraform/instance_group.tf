@@ -56,7 +56,7 @@ module "managed_instance_group" {
     instance_redistribution_type = "PROACTIVE"
     minimal_action               = "REPLACE"
 
-    max_surge_fixed              = 0
+    max_surge_fixed              = 4
     max_surge_percent            = null
     max_unavailable_fixed        = 0
     max_unavailable_percent      = null
