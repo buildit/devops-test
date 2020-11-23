@@ -19,3 +19,11 @@ jobs:
       id: validate
       working-directory: terraform
       run: terraform validate
+    - name: Terraform Plan
+      id: plan
+      working-directory: terraform
+      run: terraform plan
+    - name: Terraform Apply
+      id: apply
+      working-directory: terraform
+      run: terraform apply -auto-approve
