@@ -1,0 +1,11 @@
+name: create-branch
+on:
+  create:
+    branches: ['**']
+jobs:
+  create-workspace:
+    if: ${{ contains(github.ref, 'refs/heads/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo $GITHUB_SHA "$GITHUB_REF"
