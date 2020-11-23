@@ -23,6 +23,10 @@ module "instance_template" {
     }
   ]
 
+  tags = [
+    "wipro-test"
+  ]
+
   service_account = {
     email  = ""
     scopes = ["logging-write"]
@@ -39,4 +43,11 @@ module "managed_instance_group" {
   target_size       = var.instances
   hostname          = var.hostname_prefix
   instance_template = module.instance_template.self_link
+
+  named_ports       = [
+    {
+      name = "http"
+      port = 3000
+    }
+  ]
 }
