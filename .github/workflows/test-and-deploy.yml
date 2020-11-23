@@ -1,0 +1,38 @@
+name: test-and-deploy
+on: [push]
+jobs:
+
+  npm-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: npm test
+
+  terraform-test-and-apply:
+    runs-on: ubuntu-latest
+    needs:
+      - npm-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Credentials
+        run: |
+          mkdir -p ~/.config/gcloud
+          echo '${{ secrets.GCLOUD_CREDENTIALS }}' > ~/.config/gcloud/application_default_credentials.json
+      - name: Terraform Init
+        id: init
+        working-directory: terraform
+        run: terraform init
+      - name: Terraform Validate
+        id: validate
+        working-directory: terraform
+        run: terraform validate
+      - name: Terraform Plan
+        id: plan
+        working-directory: terraform
+        run: terraform plan
+      - name: Terraform Apply
+        id: apply
+        working-directory: terraform
+        run: terraform apply -auto-approve
