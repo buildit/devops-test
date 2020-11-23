@@ -35,4 +35,4 @@ jobs:
       - name: Terraform Apply
         id: apply
         working-directory: terraform
-        run: terraform apply -auto-approve -var git_ref=${GITHUB_SHA}
+        run: terraform apply -auto-approve -var git_ref=${GITHUB_SHA} 2>&1
