@@ -30,3 +30,7 @@ variable "disk_size_gb" {
 variable "hostname_prefix" {
   default = "wipro-test"
 }
+
+variable "git_ref" {
+  default = ""
+}

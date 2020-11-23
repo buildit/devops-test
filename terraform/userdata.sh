@@ -8,6 +8,7 @@ node -v
 
 git clone https://github.com/viktorradnai/devops-test
 cd devops-test
+test -n "${git_ref}" && git checkout ${git_ref}
 npm start & while ! nc -z localhost 3000; do
     sleep 1
 done

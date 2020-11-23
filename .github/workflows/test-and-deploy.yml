@@ -31,8 +31,8 @@ jobs:
       - name: Terraform Plan
         id: plan
         working-directory: terraform
-        run: terraform plan
+        run: terraform plan -var git_ref=${GITHUB_SHA}
       - name: Terraform Apply
         id: apply
         working-directory: terraform
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var git_ref=${GITHUB_SHA}

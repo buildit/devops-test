@@ -13,7 +13,7 @@ module "instance_template" {
   source_image_family  = "debian-10"
 
   metadata = {
-    startup-script = file("userdata.sh")
+    startup-script = templatefile("userdata.sh", { git_ref = var.git_ref })
   }
 
   access_config = [
