@@ -1,0 +1,12 @@
+name: terraform-test
+on: [push]
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Terraform Format
+      id: fmt
+      run: terraform fmt -check
