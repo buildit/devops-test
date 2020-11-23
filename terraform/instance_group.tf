@@ -9,9 +9,23 @@ module "instance_template" {
   preemptible       = var.preemptible
   disk_size_gb      = var.disk_size_gb
 
+  source_image_project = "debian-cloud"
+  source_image_family  = "debian-10"
+
+  metadata = {
+    startup-script = file("userdata.sh")
+  }
+
+  access_config = [
+    {
+      nat_ip = "" # Auto-assigned NAT IP
+      network_tier = "STANDARD"
+    }
+  ]
+
   service_account = {
     email  = ""
-    scopes = []
+    scopes = ["logging-write"]
   }
 }
 
