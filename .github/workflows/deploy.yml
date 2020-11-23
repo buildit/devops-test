@@ -7,6 +7,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Terraform Format
-      id: fmt
-      run: terraform fmt -check
+    - name: Terraform Init
+      id: init
+      working-directory: terraform
+      run: terraform init
+    - name: Terraform Validate
+      id: validate
+      working-directory: terraform
+      run: terraform validate
