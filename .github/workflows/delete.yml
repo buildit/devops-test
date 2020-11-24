@@ -17,6 +17,7 @@ jobs:
           BRANCH=`echo "$GITHUB_REF" | cut -d/ -f3- | tr / -`
           terraform init
           terraform workspace select $BRANCH
+          echo BRANCH=$BRANCH >> $GITHUB_ENV
 
       - name: Terraform Destroy
         id: destroy
@@ -27,6 +28,5 @@ jobs:
         id: delete-workspace
         working-directory: terraform
         run: |
-          BRANCH=`echo "$GITHUB_REF" | cut -d/ -f3- | tr / -`
           terraform workspace select default
           terraform workspace delete $BRANCH

@@ -25,6 +25,7 @@ jobs:
           BRANCH=`echo "$GITHUB_REF" | cut -d/ -f3- | tr / -`
           terraform init
           terraform workspace select $BRANCH
+          echo BRANCH=$BRANCH >> $GITHUB_ENV
 
       - name: Terraform Validate
         id: validate
@@ -34,9 +35,9 @@ jobs:
       - name: Terraform Plan
         id: plan
         working-directory: terraform
-        run: terraform plan -var git_ref=${GITHUB_SHA}
+        run: terraform plan -var name=${BRANCH} -var git_ref=${GITHUB_SHA}
 
       - name: Terraform Apply
         id: apply
         working-directory: terraform
-        run: terraform apply -auto-approve -var git_ref=${GITHUB_SHA} 2>&1
+        run: terraform apply -auto-approve -var name=${BRANCH} -var git_ref=${GITHUB_SHA} 2>&1

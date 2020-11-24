@@ -1,12 +1,16 @@
-
+locals {
+  network_tags = [
+    "wipro-test-${var.name}"
+  ]
+}
 
 module "lb-http" {
   source            = "GoogleCloudPlatform/lb-http/google"
   version           = "4.4.0"
 
-  name              = "mig-http-lb"
+  name              = "wipro-${var.name}-lb"
   project           = var.gcp_project
-  target_tags       = ["wipro-test"]
+  target_tags       = local.network_tags
   firewall_networks = [var.vpc]
 
   backends = {

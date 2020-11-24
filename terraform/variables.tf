@@ -34,3 +34,8 @@ variable "hostname_prefix" {
 variable "git_ref" {
   default = ""
 }
+
+variable "name" {
+  description = "String used to make different versions of the stack unique"
+  default = "main"
+}

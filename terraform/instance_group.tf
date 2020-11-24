@@ -23,9 +23,7 @@ module "instance_template" {
     }
   ]
 
-  tags = [
-    "wipro-test"
-  ]
+  tags = local.network_tags
 
   service_account = {
     email  = ""
@@ -41,7 +39,7 @@ module "managed_instance_group" {
   region            = var.gcp_region
 
   target_size       = var.instances
-  hostname          = var.hostname_prefix
+  hostname          = "${var.hostname_prefix}-${var.name}"
   instance_template = module.instance_template.self_link
 
   named_ports       = [
