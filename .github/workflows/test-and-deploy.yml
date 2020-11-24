@@ -16,22 +16,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Credentials
+
+      - name: Init
+        working-directory: terraform
         run: |
           mkdir -p ~/.config/gcloud
           echo '${{ secrets.GCLOUD_CREDENTIALS }}' > ~/.config/gcloud/application_default_credentials.json
-      - name: Terraform Init
-        id: init
-        working-directory: terraform
-        run: terraform init
+          BRANCH=`echo "$GITHUB_REF" | cut -d/ -f3- | tr / -`
+          terraform init
+          terraform workspace select $BRANCH
+
       - name: Terraform Validate
         id: validate
         working-directory: terraform
         run: terraform validate
+
       - name: Terraform Plan
         id: plan
         working-directory: terraform
         run: terraform plan -var git_ref=${GITHUB_SHA}
+
       - name: Terraform Apply
         id: apply
         working-directory: terraform
