@@ -1,6 +1,6 @@
 
 install:
-	helm install buildit buildit/
+	helm upgrade --install buildit buildit/
 
 uninstall:
 	helm uninstall buildit
