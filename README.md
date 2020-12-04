@@ -1,10 +1,6 @@
 # Buildit devops-test
 ## Includes supporting infra - EKS/GOCD pipelines
 
- - Type some Markdown on the left
- - See HTML in the right
- - Magic
-
 ## Note to buildit team!
  - This project was submitted to the agent `WITH` credentials for accessing the ci system
 
@@ -16,6 +12,11 @@ Commit to this repository - the ci system will trigger -> test -> build -> deplo
 
 ## CI
 - https://ci.wipro.tech
+
+## Install app
+```sh
+make install
+```
 
 ## Building infrastructure
 ```sh
