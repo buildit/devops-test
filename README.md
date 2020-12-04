@@ -3,6 +3,11 @@
 
 ## Note to buildit team!
  - This project was submitted to the agent `WITH` credentials for accessing the ci system
+ - Most of the time was spend on  building a complete k8s cluster with workable ingresses with basic auth.
+ - The app itself works/is deployed using helm - charts provided.
+ - This is a fully reproducable infrastrucure.
+ - GOCD ci system working with elastic agents (spins up containers on the fly)
+
 
 ## Usage
 Commit to this repository - the ci system will trigger -> test -> build -> deploy
