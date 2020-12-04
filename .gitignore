@@ -1,0 +1,7 @@
+.envrc
+.terraform/
+vendor/helm*
+vendor/kubectl*
+vendor/terraform*
+*.tfstate
+*kubeconfig*
