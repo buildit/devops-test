@@ -1,0 +1,69 @@
+  <pipelines group="buildit">
+    <pipeline name="build">
+      <materials>
+        <git url="https://github.com/dgm-wipro/devops-test.git" />
+      </materials>
+      <stage name="build">
+        <jobs>
+          <job name="build" elasticProfileId="demo-app">
+            <tasks>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>git rev-parse HEAD &gt; build_hash</arg>
+                <runif status="passed" />
+              </exec>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>docker build . -t dgmwipro/buildit:$(cat build_hash)</arg>
+                <runif status="passed" />
+              </exec>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>docker run dgmwipro/buildit:$(cat build_hash) npm test</arg>
+                <runif status="passed" />
+              </exec>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>echo <DOCKER_API_KEY> | docker login --username dgmwipro --password-stdin</arg>
+                <runif status="passed" />
+              </exec>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>docker push dgmwipro/buildit:$(cat build_hash)</arg>
+                <runif status="passed" />
+              </exec>
+            </tasks>
+            <artifacts>
+              <artifact type="build" src="build_hash" dest="build_hash" />
+            </artifacts>
+          </job>
+        </jobs>
+      </stage>
+    </pipeline>
+    <pipeline name="deploy">
+      <materials>
+        <pipeline pipelineName="build" stageName="build" />
+      </materials>
+      <stage name="deploy">
+        <jobs>
+          <job name="deploy" elasticProfileId="demo-app">
+            <tasks>
+              <fetchartifact artifactOrigin="gocd" srcfile="build_hash/build_hash" dest="build_hash" pipeline="build" stage="build" job="build">
+                <runif status="passed" />
+              </fetchartifact>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>git clone https://github.com/dgm-wipro/devops-test.git &amp;&amp; cd devops-test &amp;&amp; git reset --hard $(cat ../build_hash/build_hash)</arg>
+                <runif status="passed" />
+              </exec>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>docker run -v $PWD:/build alpine /bin/sh -c "apk add --update make curl &amp;&amp; apk add helm aws-cli kubectl --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing &amp;&amp; aws eks update-kubeconfig --name wipro-eks-<CLUSTER_SUFFIX> --region eu-west-2 &amp;&amp; kubectl config set-context --current --namespace=default &amp;&amp; make -C /build/devops-test/helm install TAG=$(cat build_hash/build_hash)"</arg>
+                <runif status="passed" />
+              </exec>
+            </tasks>
+          </job>
+        </jobs>
+      </stage>
+    </pipeline>
+  </pipelines>
