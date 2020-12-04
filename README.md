@@ -29,4 +29,5 @@ make apply
  - Safe (custom) TLS certs for ci endpoint
  - Note due to time restictions to get this done before end of day there are some steps (documented) that should be run out of band of scripting. For example route53 records.
  - Add secrets manaagement to ci system.
+ - Unpack pipeline docker bootstrap mess into own image
 
