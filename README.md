@@ -10,6 +10,7 @@ To login to any services (inc. ci service). Just enter you wipro company email a
 - http://buildit.wipro.tech
 
 ## CI
+![Alt text](ci.png?raw=true "ci pipeline")
 - https://ci.wipro.tech
 
 ## Install app
