@@ -1,17 +1,11 @@
 # Buildit devops-test
 ## Includes supporting infra - EKS/GOCD pipelines
 
-## Note to buildit team!
- - This project was submitted to the agent `WITH` credentials for accessing the ci system
- - Most of the time was spend on  building a complete k8s cluster with workable ingresses with basic auth.
- - The app itself works/is deployed using helm - charts provided.
- - This is a fully reproducable infrastrucure.
- - GOCD ci system working with elastic agents (spins up containers on the fly)
-
-
 ## Usage
 Commit to this repository - the ci system will trigger -> test -> build -> deploy
 
+## Auth
+To login to any services (inc. ci service). Just enter you wipro company email address when prompted, followed up by your login code.
 ## Application endpoint
 - http://buildit.wipro.tech
 
@@ -20,14 +14,14 @@ Commit to this repository - the ci system will trigger -> test -> build -> deplo
 
 ## Install app
 ```sh
-make install
+make -C helm install
 ```
 
 ## Building infrastructure
+
 ```sh
-cd ops
-make plan
-make apply
+make -C ops plan
+make -C ops  apply
 ```
 
 ## TODO
