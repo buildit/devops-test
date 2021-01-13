@@ -28,8 +28,8 @@ jobs:
     - name: Build
       run: npm run build --if-present
 
+  test:
+  
     - name: Test
       run: npm test
 
-    - name: Run 
-      run: timeout 10s npm start
