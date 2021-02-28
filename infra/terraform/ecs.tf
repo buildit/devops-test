@@ -23,7 +23,7 @@ resource "aws_iam_role" "ecs_iam_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_policy" {
-  role       = "${aws_iam_role.ecs_iam_role.name}"
+  role       = aws_iam_role.ecs_iam_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
@@ -48,8 +48,8 @@ resource "aws_security_group_rule" "egress_sg_rule" {
 }
 
 data "template_file" "user_data" {
-  template = "${file("${path.module}/user_data.sh")}"
-  vars {
+  template = file("${path.module}/user_data.sh")
+  vars = {
     ecs_cluster                 = aws_ecs_cluster.ecs_cluster.name
   }
 }
