@@ -45,11 +45,11 @@ resource "aws_ecs_service" "ecs_service" {
   scheduling_strategy                = "REPLICA"
   network_configuration {
     security_groups  = [aws_security_group.ecs_sg.id]
-    subnets          = [module.vpc.private_subnets]
+    subnets          = module.vpc.private_subnets
     assign_public_ip = false
   }
   load_balancer {
-    target_group_arn = var.aws_alb_target_group_arn
+    target_group_arn = aws_alb_target_group.alb_target_group.arn
     container_name   = var.container_name
     container_port   = var.container_port
   }
