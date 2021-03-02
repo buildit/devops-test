@@ -3,7 +3,7 @@
 ###
 resource "aws_security_group" "alb_sg" {
   name        = "public-alb-sg"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = aws_vpc.vpc.id
   description = "Public ALB Security Group"
   tags = {
     Environment = "demo"
@@ -34,7 +34,7 @@ resource "aws_security_group_rule" "alb_sg_egress" {
 ###
 resource "aws_security_group" "ecs_sg" {
   name   = "ecs-instance-sg"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = aws_vpc.vpc.id
   tags = {
     Environment = "demo"
     Owner       = "Ravindra"

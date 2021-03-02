@@ -24,6 +24,14 @@ resource "aws_ecs_task_definition" "ecs_task_def" {
       containerPort = var.container_port
       hostPort      = var.container_port
     }]
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        awslogs-group         = aws_cloudwatch_log_group.ecs_logs_group.name
+        awslogs-stream-prefix = "ecs"
+        awslogs-region        = var.region
+      }
+    }    
   }])
   tags               = {
     Environment = "demo"
@@ -45,7 +53,7 @@ resource "aws_ecs_service" "ecs_service" {
   scheduling_strategy                = "REPLICA"
   network_configuration {
     security_groups  = [aws_security_group.ecs_sg.id]
-    subnets          = module.vpc.private_subnets
+    subnets          = [aws_subnet.private_subnet[0].id,aws_subnet.private_subnet[1].id]
     assign_public_ip = false
   }
   load_balancer {
@@ -56,4 +64,8 @@ resource "aws_ecs_service" "ecs_service" {
   lifecycle {
     ignore_changes = [task_definition, desired_count]
   }
+}
+
+resource "aws_cloudwatch_log_group" "ecs_logs_group" {
+  name = "/ecs/${var.container_name}"
 }
