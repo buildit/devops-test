@@ -9,14 +9,14 @@ resource "aws_ecs_cluster" "ecs" {
 }
 
 resource "aws_ecs_task_definition" "ecs_task_def" {
-  family                   = "demo-task"
+  family                   = "demo"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.container_cpu
   memory                   = var.container_memory
   execution_role_arn       = aws_iam_role.ecs_task_exec_role.arn
   container_definitions = jsonencode([{
-    name        = "demo-container"
+    name        = var.container_name
     image       = "demo-ecr:latest"
     essential   = true
     portMappings = [{
@@ -53,10 +53,6 @@ resource "aws_ecs_service" "ecs_service" {
     container_name   = var.container_name
     container_port   = var.container_port
   }
-  placement_constraints {
-    type       = "memberOf"
-    expression = "attribute:ecs.availability-zone in [eu-west-2a]"
-  }  
   lifecycle {
     ignore_changes = [task_definition, desired_count]
   }
