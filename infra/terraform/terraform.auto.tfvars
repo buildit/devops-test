@@ -5,3 +5,4 @@ container_cpu  = 6
 container_memory = 512
 desired_count = 2
 container_name = "demo-ecs-container"
+enable_alb = 1
