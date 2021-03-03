@@ -24,8 +24,8 @@ resource "aws_security_group_rule" "alb_sg_egress" {
   security_group_id        = aws_security_group.alb_sg.id
   type                     = "egress"
   protocol                 = "tcp"
-  from_port                = 0
-  to_port                  = 0
+  from_port                = var.container_port
+  to_port                  = var.container_port
   source_security_group_id = aws_security_group.ecs_sg.id
 }
 

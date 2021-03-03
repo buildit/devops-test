@@ -1,13 +1,15 @@
-FROM node:15.8.0-alpine3.10
-
+FROM node:14
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
 RUN npm install
 
+
 COPY . .
+
+USER node
 
 EXPOSE 3000
 CMD [ "node", "index.js" ]
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+# ENTRYPOINT ["sh", "debug_wait.sh"]
