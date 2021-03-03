@@ -1,11 +1,11 @@
 resource "aws_ecs_cluster" "ecs" {
   name = "demo-ecs"
-  tags               = {
+  tags = {
     Environment = "demo"
-    Owner = "Ravindra"
-    ManagedBy = "Terraform"
-    Destroy = true
-  }  
+    Owner       = "Ravindra"
+    ManagedBy   = "Terraform"
+    Destroy     = true
+  }
 }
 
 resource "aws_ecs_task_definition" "ecs_task_def" {
@@ -16,9 +16,9 @@ resource "aws_ecs_task_definition" "ecs_task_def" {
   memory                   = var.container_memory
   execution_role_arn       = aws_iam_role.ecs_task_exec_role.arn
   container_definitions = jsonencode([{
-    name        = var.container_name
-    image       = "demo-ecr:latest"
-    essential   = true
+    name      = var.container_name
+    image     = "${aws_ecr_repository.ecr.repository_url}"
+    essential = true
     portMappings = [{
       protocol      = "tcp"
       containerPort = var.container_port
@@ -31,14 +31,14 @@ resource "aws_ecs_task_definition" "ecs_task_def" {
         awslogs-stream-prefix = "ecs"
         awslogs-region        = var.region
       }
-    }    
+    }
   }])
-  tags               = {
+  tags = {
     Environment = "demo"
-    Owner = "Ravindra"
-    ManagedBy = "Terraform"
-    Destroy = true
-  } 
+    Owner       = "Ravindra"
+    ManagedBy   = "Terraform"
+    Destroy     = true
+  }
 }
 
 resource "aws_ecs_service" "ecs_service" {
@@ -47,13 +47,14 @@ resource "aws_ecs_service" "ecs_service" {
   task_definition                    = aws_ecs_task_definition.ecs_task_def.arn
   desired_count                      = var.desired_count
   deployment_minimum_healthy_percent = 50
-  deployment_maximum_percent         = 100
-  health_check_grace_period_seconds  = 30
+  deployment_maximum_percent         = 200
+  health_check_grace_period_seconds  = 60
   launch_type                        = "FARGATE"
+  platform_version                   = "1.4.0"
   scheduling_strategy                = "REPLICA"
   network_configuration {
     security_groups  = [aws_security_group.ecs_sg.id]
-    subnets          = [aws_subnet.private_subnet[0].id,aws_subnet.private_subnet[1].id]
+    subnets          = aws_subnet.private_subnet.*.id
     assign_public_ip = false
   }
   load_balancer {
