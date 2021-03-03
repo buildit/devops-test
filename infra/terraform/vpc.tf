@@ -48,7 +48,7 @@ resource "aws_route_table_association" "public_route_association" {
 resource "aws_nat_gateway" "aws_ng" {
   count         = length(var.private_subnets)
   allocation_id = element(aws_eip.nat_eip.*.id, count.index)
-  subnet_id     = element(aws_subnet.private_subnet.*.id, count.index)
+  subnet_id     = element(aws_subnet.public_subnet.*.id, count.index)
   depends_on    = [aws_internet_gateway.aws_ig]
 }
 
@@ -73,4 +73,59 @@ resource "aws_route_table_association" "private_route_association" {
   count          = length(var.private_subnets)
   subnet_id      = element(aws_subnet.private_subnet.*.id, count.index)
   route_table_id = element(aws_route_table.private_route_table.*.id, count.index)
+}
+
+###
+# Create VPC flow logs
+###
+
+resource "aws_flow_log" "vpc_flow" {
+  iam_role_arn    = aws_iam_role.vpc-flow-logs-role.arn
+  log_destination = aws_cloudwatch_log_group.cw_log_group.arn
+  traffic_type    = "ALL"
+  vpc_id          = aws_vpc.vpc.id
+}
+
+resource "aws_cloudwatch_log_group" "cw_log_group" {
+  name = "demo-cloudwatch-log-group"
+}
+
+resource "aws_iam_role" "vpc-flow-logs-role" {
+  name = "demo-vpc-flow-logs-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "vpc-flow-logs.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "vpc-flow-logs-policy" {
+  name = "demo-vpc-flow-logs-policy"
+  role = aws_iam_role.vpc-flow-logs-role.id
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
 }
