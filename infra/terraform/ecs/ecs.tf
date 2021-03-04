@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "ecs" {
-  name = "demo-ecs"
+  name = var.cluster_name
   tags = {
     Environment = "demo"
     Owner       = "Ravindra"
@@ -9,7 +9,7 @@ resource "aws_ecs_cluster" "ecs" {
 }
 
 resource "aws_ecs_task_definition" "ecs_task_def" {
-  family                   = "demo"
+  family                   = var.ecs_task_family
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.container_cpu
@@ -17,12 +17,12 @@ resource "aws_ecs_task_definition" "ecs_task_def" {
   execution_role_arn       = aws_iam_role.ecs_task_exec_role.arn
   container_definitions = jsonencode([{
     name      = var.container_name
-    image     = aws_ecr_repository.ecr.repository_url
+    image     = var.ecr_repository_url
     essential = true
     portMappings = [{
       protocol      = "tcp"
-      containerPort = var.container_port
-      hostPort      = var.container_port
+      containerPort = tonumber(var.container_port)
+      hostPort      = tonumber(var.container_port)
     }]
     logConfiguration = {
       logDriver = "awslogs"
@@ -53,17 +53,17 @@ resource "aws_ecs_service" "ecs_service" {
   platform_version                   = "1.4.0"
   scheduling_strategy                = "REPLICA"
   network_configuration {
-    security_groups  = [aws_security_group.ecs_sg.id]
-    subnets          = aws_subnet.private_subnet.*.id
+    security_groups  = [var.ecs_sg_id]
+    subnets          = var.private_subnet_ids
     assign_public_ip = false
   }
   load_balancer {
-    target_group_arn = aws_alb_target_group.alb_target_group.arn
+    target_group_arn = var.target_group_arn
     container_name   = var.container_name
     container_port   = var.container_port
   }
   lifecycle {
-    ignore_changes = [task_definition, desired_count]
+    ignore_changes = [desired_count]
   }
 }
 

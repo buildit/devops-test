@@ -26,11 +26,12 @@ remote_state {
 # DRY terraform backend
 ###
 generate "provider" {
-    path  = "provider.tf"
-    if_exists = "overwrite"
-    contents = << EOF
-    provider "aws" {
-        region = "${local.aws_region}"
-    }
-    EOF
+  path      = "provider.tf"
+  if_exists = "overwrite"
+  contents = <<EOF
+provider "aws" {
+  region              = "${local.aws_region}"
+  allowed_account_ids = ["523160825386"]
+}
+EOF
 }

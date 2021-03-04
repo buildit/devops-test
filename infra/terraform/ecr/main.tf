@@ -2,7 +2,7 @@
 # Repo
 ###
 resource "aws_ecr_repository" "ecr" {
-  name = "demo-ecr"
+  name = var.ecr_name
 }
 ###
 # Purge images older than 5 days
